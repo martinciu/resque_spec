@@ -29,6 +29,16 @@ module ResqueSpec
   def reset!
     queues.clear
   end
+  
+  def run!
+    old_queues = queues.dup
+    reset!
+    old_queues.each do |name, queue|
+      queue.each do |job|
+        job[:klass].perform(*job[:args])
+      end
+    end
+  end
 
   module Resque
     extend self
