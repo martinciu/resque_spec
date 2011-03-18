@@ -22,8 +22,6 @@ module ResqueSpec
   end
 end
 
-Resque.extend(ResqueSpec::ResqueScheduler)
-
 RSpec::Matchers.define :have_scheduled do |*expected_args|
   match do |actual|
     ResqueSpec.scheduled_anytime?(actual, *expected_args)
