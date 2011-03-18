@@ -30,13 +30,12 @@ module ResqueSpec
     queues.clear
   end
   
-  def run!
-    old_queues = queues.dup
-    reset!
-    old_queues.each do |name, queue|
-      queue.each do |job|
-        job[:klass].perform(*job[:args])
-      end
+  def run!(klass)
+    queue_name = queue_name(klass)
+    queue = queue_for(klass).dup
+    @queues[queue_name] = []
+    queue.each do |job|
+      job[:klass].perform(*job[:args])
     end
   end
 
