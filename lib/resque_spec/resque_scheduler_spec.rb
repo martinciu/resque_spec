@@ -19,6 +19,10 @@ module ResqueSpec
     def enqueue_at(time, klass, *args)
       ResqueSpec.schedule_for(klass) << {:klass => klass, :time  => time, :args => args}
     end
+    
+    def remove_delayed(klass, *args)
+      ResqueSpec.schedule_for(klass).delete_if {|entry| entry[:klass] == klass && entry[:args] == args}
+    end
   end
 end
 
